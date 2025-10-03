@@ -201,6 +201,7 @@ class VMFParser:
 	def get_all_materials(self) -> Set[str]:
 		materials = set()
 
+		# Extract materials from brush faces (world geometry and entity brushes)
 		for brush in self.world_brushes:
 			for side in brush.sides:
 				if side.material:
@@ -210,6 +211,20 @@ class VMFParser:
 			for side in brush.sides:
 				if side.material:
 					materials.add(side.material.lower())
+
+		# Extract materials from overlay and decal entities
+		for entity in self.entities:
+			# info_overlay entities use "material" property
+			if entity.classname == 'info_overlay' and 'material' in entity.properties:
+				material = entity.properties['material']
+				if material:
+					materials.add(material.lower())
+			
+			# infodecal entities use "texture" property
+			elif entity.classname == 'infodecal' and 'texture' in entity.properties:
+				texture = entity.properties['texture']
+				if texture:
+					materials.add(texture.lower())
 
 		return materials
 
