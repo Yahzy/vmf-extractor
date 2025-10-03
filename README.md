@@ -10,21 +10,11 @@ Content extractor for VMF (Valve Map Format) files from Source Engine with a sim
 - ⚡ **Automatic**: Saved configuration, no need to reconfigure
 - 📊 **Real-time Tracking**: Live progress and statistics
 
-## Installation
-
-No external dependencies. Uses only standard Python + tkinter.
-
-```bash
-# Download files to a folder
-# Double-click VMF_Extractor.bat (Windows) 
-# Or run: python main.py
-```
-
 ## Usage
 
 ### 🚀 Quick Method
-1. **Double-click** `VMF_Extractor.bat` (Windows)
-2. **Or run**: `python main.py`
+1. **Launch with vscode** `gui.py` (Windows)
+2. **Or run**: `python gui.py`
 
 ### 📋 Initial Setup
 1. **Add your content paths**:
@@ -33,15 +23,6 @@ No external dependencies. Uses only standard Python + tkinter.
 
 2. **Drag & drop** your .vmf file
 3. **That's it!** Extraction starts automatically
-
-### 🎯 Typical Workflow
-```
-1. First launch → Configure paths
-2. Drag & drop VMF → Automatic extraction  
-3. Result in extracted_[map_name]/
-```
-
-
 
 ## File Structure
 
@@ -54,7 +35,6 @@ vmfextractor/
 ├── extract_mat.py       # Material extractor
 ├── extract_mdl.py       # Model extractor  
 ├── extract_snd.py       # Sound extractor
-├── content_paths.json   # Configuration (auto-created)
 └── README.md           # Documentation
 ```
 
@@ -122,67 +102,6 @@ extracted_[mapname]/
 └── missing.txt         # Report of missing files (if any)
 ```
 
-## Supported Entity Types
-
-### Materials
-- World brushes
-- Entity brushes  
-- Custom textures
-
-### Models
-- `prop_static`, `prop_dynamic`, `prop_dynamic_override`
-- `prop_physics`, `prop_physics_multiplayer`
-- `prop_ragdoll`, `cycler`
-- NPC and weapon entities
-
-### Sounds
-- `ambient_generic`, `env_soundscape`
-- `func_button`, `func_door`, `func_breakable`
-- Various entity sounds
-
-## Automatic Configuration
-
-On first launch, a `content_paths.json` file is created with default paths. You can modify it according to your needs:
-
-```json
-{
-  "paths": [
-    {
-      "path": "C:/Steam/steamapps/common/Counter-Strike Source/cstrike",
-      "type": "content"
-    },
-    {
-      "path": "C:/Steam/steamapps/common/Half-Life 2/hl2",
-      "type": "content"
-    }
-  ]
-}
-```
-
-## Limitations
-
-1. **Model parsing**: Material extraction from .mdl files uses sophisticated binary parsing with strict validation to prevent false positives.
-
-2. **Audio formats**: Supports .wav, .mp3, .ogg but not proprietary Source formats.
-
-3. **Dependencies**: Does not automatically handle dependencies between materials or inclusions.
-
-## Troubleshooting
-
-### "No materials/models/sounds found"
-- Check that game directories are correct
-- Ensure the VMF file is valid
-- Verify read permissions on folders
-
-### "Parsing error"
-- The VMF file may be corrupted
-- Try opening the file in Hammer Editor to verify
-
-### "Missing files"
-- Some assets may be in unspecified directories
-- Add more directories to your configuration
-- Check the missing.txt report to see what's missing
-
 ## Common Issues
 
 ### Output Directory Already Exists
@@ -211,10 +130,6 @@ Make sure you have write permissions in the working directory.
 2. Implement the `XxxExtractor` class
 3. Add extraction to `gui.py`
 4. Update documentation
-
-## License
-
-[Specify your license here]
 
 ## Contributing
 
