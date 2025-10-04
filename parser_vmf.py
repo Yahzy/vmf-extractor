@@ -28,6 +28,7 @@ class VMFParser:
 		self.entities: List[VMFEntity] = []
 		self.brushes: List[VMFBrush] = []
 		self.world_brushes: List[VMFBrush] = []
+		self.worldspawn_properties: Dict[str, str] = {}
 
 	# Parse VMF file
 	def parse_file(self, vmf_path: str) -> bool:
@@ -60,7 +61,7 @@ class VMFParser:
 			else:
 				i += 1
 
-	# Parse the world section to extract brushes
+	# Parse the world section to extract brushes and worldspawn properties
 	def _parse_world_section(self, lines: List[str], start_idx: int) -> int:
 		i = start_idx
 
@@ -81,6 +82,11 @@ class VMFParser:
 				if brush:
 					self.world_brushes.append(brush)
 				continue
+			elif '"' in line:
+				# Parse worldspawn properties (like skyname)
+				key, value = self._parse_property_line(line)
+				if key and value:
+					self.worldspawn_properties[key] = value
 
 			i += 1
 
@@ -259,3 +265,19 @@ class VMFParser:
 						sounds.add(value.lower())
 
 		return sounds
+
+	# Get skybox materials from worldspawn
+	def get_skybox_materials(self) -> Set[str]:
+		skybox_materials = set()
+
+		skyname = self.worldspawn_properties.get('skyname')
+		if not skyname:
+			return skybox_materials
+
+		skybox_suffixes = ['up', 'dn', 'lf', 'rt', 'ft', 'bk']
+
+		for suffix in skybox_suffixes:
+			material_path = f"skybox/{skyname}_{suffix}"
+			skybox_materials.add(material_path.lower())
+
+		return skybox_materials

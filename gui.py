@@ -297,6 +297,7 @@ class VMFExtractorGUI:
 			sound_extractor = SoundExtractor(content_paths)
 
 			self._extract_materials(parser, mat_extractor, output_dir)
+			self._extract_skybox(parser, mat_extractor, output_dir)
 			self._extract_models(vmf_path, mdl_extractor, mat_extractor, output_dir)
 			self._extract_sounds(vmf_path, sound_extractor, output_dir)
 
@@ -326,6 +327,18 @@ class VMFExtractorGUI:
 			if material_files:
 				mat_extractor.copy_to_directory(material_files, output_dir, True)
 			self.log_async(f"Materials: {len(material_files)} found, {len(mat_extractor.missing)} missing")
+
+	# Extract skybox materials from VMF
+	def _extract_skybox(self, parser, mat_extractor, output_dir):
+		self.log_async("Extracting skybox...")
+		skybox_materials = parser.get_skybox_materials()
+		if skybox_materials:
+			skybox_files = mat_extractor.find_files(skybox_materials)
+			if skybox_files:
+				mat_extractor.copy_to_directory(skybox_files, output_dir, True)
+			self.log_async(f"Skybox: {len(skybox_files)} found, {len(skybox_materials) - len(skybox_files)} missing")
+		else:
+			self.log_async("Skybox: No skybox defined in worldspawn")
 
 	# Extract models from VMF
 	def _extract_models(self, vmf_path, mdl_extractor, mat_extractor, output_dir):
