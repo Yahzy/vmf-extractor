@@ -60,6 +60,8 @@ class MaterialExtractor:
 				r'["\']?\$detail["\']?\s+([^\s{}\[\]]+)',
 				r'["\']?\$decaltexture["\']?\s+["\']([^"\']+)["\']',
 				r'["\']?\$decaltexture["\']?\s+([^\s{}\[\]]+)',
+				r'["\']?\$selfillummask["\']?\s+["\']([^"\']+)["\']',
+				r'["\']?\$selfillummask["\']?\s+([^\s{}\[\]]+)',
 			]
 
 			for pattern in patterns:
